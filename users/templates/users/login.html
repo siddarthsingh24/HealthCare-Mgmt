@@ -1,8 +1,62 @@
-<form method="post">
-    {% csrf_token %}
-    <label>Email:</label>
-    <input type="email" name="email" required><br><br>
-    <label>Password:</label>
-    <input type="password" name="password" required><br><br>
-    <input type="submit" value="Login">
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Healthcare App - Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #b3e0ff; /* Light blue background */
+            text-align: center;
+            padding-top: 50px;
+        }
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        input[type="email"],
+        input[type="password"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Login to Healthcare App</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
