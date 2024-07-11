@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Django App{% endblock %}</title>
+    <!-- Add your CSS links or styles here -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'create_blog_post' %}">Create Blog Post</a></li>
+                <!-- Add more navigation links as needed -->
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- This block will be overridden by child templates -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Footer content -->
+        <p>&copy; 2024 My Django App. All rights reserved.</p>
+    </footer>
+
+    <!-- Add your JavaScript scripts or links here -->
+    <script src="{% static 'js/scripts.js' %}"></script>
+</body>
+</html>
