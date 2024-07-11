@@ -22,9 +22,44 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: left;
         }
-        p {
-            font-size: 16px;
+        .blog-posts {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        .blog-posts h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .blog-post {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
             margin-bottom: 10px;
+        }
+        .blog-post:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .blog-post h3 {
+            margin: 0;
+        }
+        .create-post {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .create-post a {
+            text-decoration: none;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .create-post a:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -36,6 +71,24 @@
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Address:</strong> {{ user.address_line1 }}, {{ user.city }}, {{ user.state }} - {{ user.pincode }}</p>
+    </div>
+
+    <div class="blog-posts">
+        <h2>My Blog Posts</h2>
+        {% for post in blog_posts %}
+            <div class="blog-post">
+                <h3>{{ post.title }}</h3>
+                <p><strong>Category:</strong> {{ post.category.name }}</p>
+                <p><strong>Summary:</strong> {{ post.summary }}</p>
+                <p><strong>Status:</strong> {% if post.draft %}Draft{% else %}Published{% endif %}</p>
+            </div>
+        {% empty %}
+            <p>No blog posts available.</p>
+        {% endfor %}
+    </div>
+
+    <div class="create-post">
+        <a href="{% url 'create_blog_post' %}">Create New Blog Post</a>
     </div>
 </body>
 </html>
