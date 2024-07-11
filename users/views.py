@@ -3,6 +3,12 @@ from.forms import SignupForm
 from.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import BlogPost
+from .forms import BlogPostForm
+from .models import CATEGORY_CHOICES
+
 
 def signup_view(request):
     if request.method == 'POST':
@@ -43,13 +49,30 @@ def login_view(request):
         else:
             print("Not logged In")
     return render(request, 'users/login.html')
-def doctor_dashboard(request):
-    user = request.user
-    return render(request, 'users/doctor_dashboard.html', {'user': user})
-
-def patient_dashboard(request):
-    user = request.user
-    return render(request, 'users/patient_dashboard.html', {'user': user})
 
 def home(request):
     return render(request, 'users/home.html')
+
+def create_blog_post(request):
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            blog_post = form.save(commit=False)
+            blog_post.author = request.user
+            blog_post.save()
+            return redirect('doctor_dashboard')
+    else:
+        form = BlogPostForm()
+    return render(request, 'users/create_blog_post.html', {'form': form})
+
+
+def doctor_dashboard(request):
+    
+    blog_posts = BlogPost.objects.all()
+    return render(request, 'users/doctor_dashboard.html', {'blog_posts': blog_posts})
+
+def patient_dashboard(request):
+    categories = CATEGORY_CHOICES
+    
+    blog_posts = BlogPost.objects.filter(is_draft=False)
+    return render(request, 'users/patient_dashboard.html', {'categories': categories, 'blog_posts': blog_posts})
