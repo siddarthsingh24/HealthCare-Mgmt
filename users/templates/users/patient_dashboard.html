@@ -22,6 +22,39 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: left;
         }
+        .blog-posts {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        .blog-posts h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .category-section {
+            margin-bottom: 30px;
+        }
+        .blog-post {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .blog-post:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .blog-post h4 {
+            margin: 0;
+        }
+        .blog-post img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
         p {
             font-size: 16px;
             margin-bottom: 10px;
@@ -36,6 +69,26 @@
         <p><strong>Username:</strong> {{ user.username }}</p>
         <p><strong>Email:</strong> {{ user.email }}</p>
         <p><strong>Address:</strong> {{ user.address_line1 }}, {{ user.city }}, {{ user.state }} - {{ user.pincode }}</p>
+    </div>
+
+    <div class="blog-posts">
+        <h2>Blog Posts</h2>
+        {% for category, posts in blog_posts_by_category.items %}
+            <div class="category-section">
+                <h3>{{ category }}</h3>
+                {% for post in posts %}
+                    <div class="blog-post">
+                        <h4>{{ post.title }}</h4>
+                        {% if post.image %}
+                            <img src="{{ post.image }}" alt="{{ post.title }}">
+                        {% endif %}
+                        <p>{{ post.summary|truncatewords:15 }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% empty %}
+            <p>No blog posts available.</p>
+        {% endfor %}
     </div>
 </body>
 </html>
