@@ -39,6 +39,7 @@
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
             margin-bottom: 10px;
+            position: relative; /* Allows positioning for delete button */
         }
         .blog-post:last-child {
             border-bottom: none;
@@ -46,6 +47,23 @@
         }
         .blog-post h3 {
             margin: 0;
+        }
+        .blog-post p {
+            margin-bottom: 5px;
+        }
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545; /* Red */
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #c82333; /* Darker red on hover */
         }
         .create-post {
             margin-top: 20px;
@@ -76,11 +94,12 @@
     <div class="blog-posts">
         <h2>My Blog Posts</h2>
         {% for post in blog_posts %}
-            <div class="blog-post">
+            <div class="blog-post" id="post-{{ post.id }}">
                 <h3>{{ post.title }}</h3>
                 <p><strong>Category:</strong> {{ post.category.name }}</p>
                 <p><strong>Summary:</strong> {{ post.summary }}</p>
                 <p><strong>Status:</strong> {% if post.draft %}Draft{% else %}Published{% endif %}</p>
+                <button class="delete-button" onclick="deletePost({{ post.id }})">Delete</button>
             </div>
         {% empty %}
             <p>No blog posts available.</p>
@@ -90,5 +109,38 @@
     <div class="create-post">
         <a href="{% url 'create_blog_post' %}">Create New Blog Post</a>
     </div>
+
+    <script>
+        function deletePost(postId) {
+            if (confirm('Are you sure you want to delete this blog post?')) {
+                // Simulated deletion (replace with AJAX call to backend)
+                const postElement = document.getElementById('post-' + postId);
+                postElement.style.display = 'none'; // Remove post from view
+
+                // AJAX call to delete post from backend
+                // Example using fetch API
+                fetch('/delete_post/' + postId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Deleted:', data);
+                    // Optionally, show a success message or update UI
+                })
+                .catch(error => {
+                    console.error('Error deleting post:', error);
+                    // Handle error or show error message
+                });
+            }
+        }
+    </script>
 </body>
 </html>
