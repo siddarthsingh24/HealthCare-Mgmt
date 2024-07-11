@@ -59,6 +59,22 @@
             font-size: 16px;
             margin-bottom: 10px;
         }
+        .load-more-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .load-more-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -73,22 +89,52 @@
 
     <div class="blog-posts">
         <h2>Blog Posts</h2>
-        {% for category, posts in blog_posts_by_category.items %}
-            <div class="category-section">
-                <h3>{{ category }}</h3>
-                {% for post in posts %}
-                    <div class="blog-post">
-                        <h4>{{ post.title }}</h4>
-                        {% if post.image %}
-                            <img src="{{ post.image }}" alt="{{ post.title }}">
-                        {% endif %}
-                        <p>{{ post.summary|truncatewords:15 }}</p>
-                    </div>
-                {% endfor %}
-            </div>
-        {% empty %}
-            <p>No blog posts available.</p>
-        {% endfor %}
+        <div id="blog-posts-container">
+            {% for category, posts in blog_posts_by_category.items %}
+                <div class="category-section">
+                    <h3>{{ category }}</h3>
+                    {% for post in posts %}
+                        <div class="blog-post">
+                            <h4>{{ post.title }}</h4>
+                            {% if post.image %}
+                                <img src="{{ post.image }}" alt="{{ post.title }}">
+                            {% endif %}
+                            <p>{{ post.summary|truncatewords:15 }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% empty %}
+                <p>No blog posts available.</p>
+            {% endfor %}
+        </div>
+        <button class="load-more-button" id="load-more-button">Load More Posts</button>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadMoreButton = document.getElementById('load-more-button');
+            let currentPage = 1; // Track current page of loaded posts
+
+            );
+
+            // Function to render blog posts dynamically
+            function renderBlogPosts(posts) {
+                const blogPostsContainer = document.getElementById('blog-posts-container');
+
+                posts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('blog-post');
+
+                    postElement.innerHTML = `
+                        <h4>${post.title}</h4>
+                        <img src="${post.image}" alt="${post.title}">
+                        <p>${post.summary}</p>
+                    `;
+
+                    blogPostsContainer.appendChild(postElement);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
